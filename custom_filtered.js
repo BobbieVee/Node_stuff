@@ -1,21 +1,21 @@
 
-
 var fs = require('fs');
-
-
-
-
-
-var callback = function(err, list){
-	// console.log(list);
-	for(var i = 0; i < list.length; i++){
-		// console.log(list[i].indexOf('.' + arg2));
-		if (list[i].indexOf('.' + arg2) > 1) {
-			console.log(list[i]);
+var filtered = function filtered(list,ext, callback){
+	// console.log('from custom_filtered filted: ', list, ext)
+	fs.readdir(list, function(err, list) {
+		if(err) return callback(err);
+		else {
+			var filteredList = [];
+			for(var i = 0; i < list.length; i++){
+				// console.log(list[i].indexOf('.' + ext));
+				if (list[i].indexOf('.' + ext) > 0) {
+					// console.log('Keep this ->', list[i]);
+					filteredList.push(list[i]);
+					// console.log('new list =', filteredList);
+				}
+			}
+			return callback(null, filteredList);
 		}
-	}
-}
-
-var filtered = fs.readdir(arg1,callback);
-
-module.exports = filtered(arg1,arg2);
+	});
+};
+module.exports = filtered;
